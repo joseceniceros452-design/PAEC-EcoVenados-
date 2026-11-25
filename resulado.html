@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Carta compromiso</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="estilos.css" type="text/css">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="menu">
+            <h3>Índice</h3>
+            <ul>
+                <li><a href="index.html">Principal</a></li>
+                <li><a href="reciclaje.html">¿Qué es el reciclaje?</a></li>
+                <li><a href="tipos_residuos.html">Tipos de residuos</a></li>
+                <li><a href="3r.html">Las 3R</a></li>
+                <li><a href="problema_ambiental.html">Problema ambiental</a></li>
+                <li><a href="reciclaje_escuela.html">El reciclaje en nuestra escuela</a></li>
+                <li><a href="reciclaje_comunidad.html">El reciclaje en nuestra comunidad</a></li>
+                <li><a href="formulario.html">Compromiso</a></li>
+            </ul>
+        </div>
+
+        <div class="contenido">
+            <div class="tarjeta-info">
+                <h3>¡Compromiso registrado con éxito, <span id="nombre"></span>!</h3>
+                <p>Grupo: <strong id="grupo"></strong> | Compromiso elegido: <strong id="compromiso"></strong></p>
+
+                <p id="mensaje_final" style="font-size: 17px; margin: 16px 0;"></p>
+
+                <div style="background-color: #e3f2fd; padding: 12px; border-left: 4px solid #0e0e75; border-radius: 5px;">
+                    <strong>🌱 Resultado de tu impacto semanal:</strong><br><br>
+                    Con <strong id="unidades_semana"></strong> residuos gestionados o evitados por semana:<br>
+                    - En 1 mes evitarás/separarás <strong id="impacto_mes"></strong> residuos.<br>
+                    - En 1 año lograrás un impacto de <strong id="impacto_ano"></strong> residuos.<br>
+                    - Insignia alcanzada: <strong id="nivel_eco"></strong>
+                </div>
+
+                <br>
+                <a href="formulario.html">Volver al formulario</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+
+        const nombre = params.get("nombre") || "Compañero/a";
+        const grupo = params.get("grupo") || "No especificado";
+        const compromisoRaw = params.get("compromiso") || params.get("accion_ambiente") || "cuidar el ambiente";
+        const compromiso = compromisoRaw.charAt(0).toUpperCase() + compromisoRaw.slice(1);
+        const unidadesSemana = Math.max(0, parseInt(params.get("unidades_semana"), 10) || 0);
+
+        const impactoMes = unidadesSemana * 4;
+        const impactoAno = unidadesSemana * 52;
+
+        let nivelEco = "Semilla del Cambio Nivel Bronce 🌱";
+        if (impactoMes >= 40) {
+            nivelEco = "Guardían Eco-Venado Nivel Oro 🏆";
+        } else if (impactoMes >= 16) {
+            nivelEco = "Impulsor Verde Nivel Plata 🥈";
+        }
+
+        const mensajes = [
+            `¡Gran paso, ${nombre}! Cada envase que separas o evitas cuenta más de lo que imaginas. Al cumplir tu compromiso de '${compromiso}', estás evitando que cientos de residuos terminen contaminando nuestra escuela y comunidad. ¡Sigue contagiando esa energía Eco-Venado!`,
+            `¡Excelente aporte, ${nombre}! El cambio ambiental empieza con decisiones reales como la tuya hoy. Gracias por sumarte a la transformación de nuestro entorno y demostrar que en la prepa sí sabemos cuidar el planeta.`,
+            `El reciclaje no es una moda, ${nombre}, es una responsabilidad con nuestro futuro. Gracias por comprometerte a '${compromiso}'. Al darle una segunda vida a los materiales, ahorras agua, energía y mantienes limpios nuestros espacios escolares.`,
+            `¿Sabías que tus pequeñas acciones diarias inspirarán a más compañeros, ${nombre}? No necesitas hacerlo perfecto desde el primer día: basta con ser constante en '${compromiso}'. ¡Gracias por ser parte activa de PAEC: Eco-Venados Transformando el Entorno!`
+        ];
+
+        const indiceAleatorio = Math.floor(Math.random() * mensajes.length);
+        const mensajeFinal = mensajes[indiceAleatorio];
+
+        document.getElementById("nombre").textContent = nombre;
+        document.getElementById("grupo").textContent = grupo;
+        document.getElementById("compromiso").textContent = compromiso;
+        document.getElementById("mensaje_final").textContent = mensajeFinal;
+        document.getElementById("unidades_semana").textContent = unidadesSemana;
+        document.getElementById("impacto_mes").textContent = impactoMes;
+        document.getElementById("impacto_ano").textContent = impactoAno;
+        document.getElementById("nivel_eco").textContent = nivelEco;
+    </script>
+</body>
+</html>
